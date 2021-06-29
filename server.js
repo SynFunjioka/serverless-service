@@ -1,20 +1,22 @@
 const express = require("express");
 const serverless = require("serverless-http");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const bodyparser = require("body-parser");
 const AWS = require("aws-sdk");
-const {v4: uuid4} = require("uuid");
+const {v4: uuidv4} = require("uuid");
 
-var jsonParser = bodyParser.json();
+var dynamodb = new AWS.DynamoDB.DocumentClient({region: 'us-east-1'});
+
+var jsonParser = bodyparser.json();
 const app = express();
 app.use(cors());
 
 app.get("/", function(req, res){
-        res.send({"stage": "dev"})
+        res.send({"stage": "dev"});
 })
 
 app.post("/createStudent", jsonParser, function(req, res){
-    let id =  uuid4();
+    let id =  uuidv4();
     let date = new Date().toLocaleString('es-MX', {timeZone: 'America/Mexico_City'});
 
     (async () => {
