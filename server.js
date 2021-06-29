@@ -26,7 +26,7 @@ app.post("/createStudent", jsonParser, function(req, res){
                 "sk": id,
                 "username": req.body.username,
                 "lastname": req.body.lastname,
-                "emai": req.body.email,
+                "email": req.body.email,
                 "createdAt": date
             };
 
@@ -40,7 +40,7 @@ app.post("/createStudent", jsonParser, function(req, res){
 
             dynamodb.put(params, function(err, response){
                 if(err){
-                    res.status(500).send(error);
+                    res.status(500).send(err);
                 }else{
                     res.status(200).send(data);
                 }
@@ -52,7 +52,7 @@ app.post("/createStudent", jsonParser, function(req, res){
     })();
 });
 
-app.get("getAll", function(req, res){
+app.get("/getAll", function(req, res){
     var params = {
          //Nombre de la tabla a la que hará referencia
          TableName: "school_a"
@@ -60,7 +60,7 @@ app.get("getAll", function(req, res){
 
     dynamodb.scan(params, function(err, response){
         if(err){
-            res.status(500).send(error);
+            res.status(500).send(err);
         }else{
             res.status(200).send(response);
         }
